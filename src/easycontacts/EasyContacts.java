@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Stack;
 
 
 class Contact{
@@ -137,8 +138,57 @@ void importContacts(String filename) {
   
 
 public class EasyContacts {
-
+    private Operations contacts;
+     private Stack<Contact> deleteStack;
     
+    public EasyContacts() {
+        contacts = new Operations();
+        deleteStack = new Stack<>();
+        
+    }
+    public void addContact(String name, String phoneNumber, String email, String address, String notes) {
+        Contact newContact = new Contact(name, phoneNumber, email, address, notes);
+        if (contacts.search(name) == null) {
+            contacts.add(newContact);
+            System.out.println("Contact added successfully.");
+        } else {
+            System.out.println("Duplicate contact. Not added.");
+        }
+    }
+
+    public void searchContact(String keyword) {
+        Contact contact = contacts.search(keyword);
+        if (contact != null) {
+            System.out.println(contact);
+        } else {
+            System.out.println("Contact not found.");
+        }
+    }
+
+    public void deleteContact(String name) {
+        Contact contact = contacts.search(name);
+        if (contact != null && contacts.delete(name)) {
+            deleteStack.push(contact);
+            System.out.println("Contact deleted successfully.");
+        } else {
+            System.out.println("Contact not found.");
+        }
+    }
+
+    public void undoDelete() {
+        if (!deleteStack.isEmpty()) {
+            contacts.add(deleteStack.pop());
+            System.out.println("Undo successful. Contact restored.");
+        } else {
+            System.out.println("No contact to undo.");
+        }
+    }
+
+
+     public void importContacts(String filename) {
+        contacts.importContacts(filename);
+    }
+     
     public static void main(String[] args) {
       
     }
