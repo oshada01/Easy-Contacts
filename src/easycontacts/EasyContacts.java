@@ -260,8 +260,69 @@ public class EasyContacts {
             System.out.print("Choose an option: ");
             int choice = scanner.nextInt();
             scanner.nextLine();  
+            
+            try {
+                switch (choice) {
+                    case 1:
+                        System.out.print("Enter name: ");
+                        String name = scanner.nextLine();
+                        System.out.print("Enter phone number: ");
+                        String phoneNumber = scanner.nextLine();
+                        System.out.print("Enter email: ");
+                        String email = scanner.nextLine();
+                        System.out.print("Enter address: ");
+                        String address = scanner.nextLine();
+                        System.out.print("Enter special notes: ");
+                        String notes = scanner.nextLine();
+                        phonebook.addContact(name, phoneNumber, email, address, notes);
+                        break;
+                    case 2:
+                        System.out.print("Enter keyword to search: ");
+                        String keyword = scanner.nextLine();
+                        phonebook.searchContact(keyword);
+                        break;
+                    case 3:
+                        System.out.print("Enter name to delete: ");
+                        String nameToDelete = scanner.nextLine();
+                        phonebook.deleteContact(nameToDelete);
+                        break;
+                    case 4:
+                        phonebook.undoDelete();
+                        break;
+                    case 5:
+                        phonebook.sortContacts();
+                        break;
+                    case 6:
+                        phonebook.displayContacts();
+                        break;
+                    case 7:
+                        System.out.print("Enter backup file name: ");
+                        String backupFile = scanner.nextLine();
+                        phonebook.backupContacts(backupFile);
+                        break;
+                    case 8:
+                        System.out.print("Enter backup file name to restore: ");
+                        String restoreFile = scanner.nextLine();
+                        phonebook.restoreContacts(restoreFile);
+                        break;
+                    case 9:
+                        System.out.print("Enter import file name: ");
+                        String importFile = scanner.nextLine();
+                        phonebook.importContacts(importFile);
+                        break;
+                    case 10:
+                        System.out.println("Exiting...");
+                        scanner.close();
+                        System.exit(0);
+                        break;
+                    default:
+                        System.out.println("Invalid choice. Please try again.");
+                }
+            }   catch (Exception e) {
+                System.out.println("An error occurred: " + e.getMessage());
+            }
 
-    }
+        }
     
-}
+    }
 }
