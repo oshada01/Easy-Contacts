@@ -1,6 +1,9 @@
 
 package easycontacts;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+
 
 class Contact{
     String name;
@@ -79,6 +82,36 @@ class Operations {
             current = current.next;
         }
         return false;
+    }
+    void sort() {
+        if (head == null) return;
+        ArrayList<Contact> contactsArray = toArray();
+        contactsArray.sort(Comparator.comparing(contact -> contact.name));
+        fromArray(contactsArray);
+    }
+
+    void display() {
+        Node current = head;
+        while (current != null) {
+            System.out.println(current.contact);
+            current = current.next;
+        }
+    }
+    ArrayList<Contact> toArray() {
+        ArrayList<Contact> array = new ArrayList<>();
+        Node current = head;
+        while (current != null) {
+            array.add(current.contact);
+            current = current.next;
+        }
+        return array;
+    }
+
+    void fromArray(ArrayList<Contact> array) {
+        head = null;
+        for (Contact contact : array) {
+            add(contact);
+        }
     }
 }
 
