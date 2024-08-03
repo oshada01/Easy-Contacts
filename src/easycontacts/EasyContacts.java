@@ -1,4 +1,3 @@
-
 package easycontacts;
 
 import java.io.BufferedReader;
@@ -11,29 +10,30 @@ import java.util.Comparator;
 import java.util.Scanner;
 import java.util.Stack;
 
+class Contact {
 
-class Contact{
     String name;
     String phoneNumber;
     String email;
     String address;
     String notes;
-    
-    Contact(String name, String phoneNumber, String email, String address, String notes){
+
+    Contact(String name, String phoneNumber, String email, String address, String notes) {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.address = address;
         this.notes = notes;
     }
-    
+
     @Override
-    public String toString(){
-        return "Name: " + name + ", Phone: " + phoneNumber + ", Email: " + email + ", Address: " + address + ", Notes: " + notes ;
+    public String toString() {
+        return "Name: " + name + ", Phone: " + phoneNumber + ", Email: " + email + ", Address: " + address + ", Notes: " + notes;
     }
 }
 
 class Node {
+
     Contact contact;
     Node next;
 
@@ -43,8 +43,8 @@ class Node {
     }
 }
 
-
 class Operations {
+
     Node head;
 
     void add(Contact contact) {
@@ -63,10 +63,10 @@ class Operations {
     Contact search(String keyword) {
         Node current = head;
         while (current != null) {
-            if (current.contact.name.contains(keyword) ||
-                current.contact.phoneNumber.contains(keyword) ||
-                current.contact.email.contains(keyword) ||
-                current.contact.address.contains(keyword)) {
+            if (current.contact.name.contains(keyword)
+                    || current.contact.phoneNumber.contains(keyword)
+                    || current.contact.email.contains(keyword)
+                    || current.contact.address.contains(keyword)) {
                 return current.contact;
             }
             current = current.next;
@@ -75,7 +75,9 @@ class Operations {
     }
 
     boolean delete(String name) {
-        if (head == null) return false;
+        if (head == null) {
+            return false;
+        }
         if (head.contact.name.equals(name)) {
             head = head.next;
             return true;
@@ -90,8 +92,11 @@ class Operations {
         }
         return false;
     }
+
     void sort() {
-        if (head == null) return;
+        if (head == null) {
+            return;
+        }
         ArrayList<Contact> contactsArray = toArray();
         contactsArray.sort(Comparator.comparing(contact -> contact.name));
         fromArray(contactsArray);
@@ -104,6 +109,7 @@ class Operations {
             current = current.next;
         }
     }
+
     ArrayList<Contact> toArray() {
         ArrayList<Contact> array = new ArrayList<>();
         Node current = head;
@@ -120,13 +126,13 @@ class Operations {
             add(contact);
         }
     }
-    
-        void backup(String filename) {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filename))) {
+
+    void backup(String filename) {
+        try ( BufferedWriter bw = new BufferedWriter(new FileWriter(filename))) {
             Node current = head;
             while (current != null) {
-                bw.write(current.contact.name + "," + current.contact.phoneNumber + "," + current.contact.email + "," +
-                         current.contact.address + "," + current.contact.notes + "\n");
+                bw.write(current.contact.name + "," + current.contact.phoneNumber + "," + current.contact.email + ","
+                        + current.contact.address + "," + current.contact.notes + "\n");
                 current = current.next;
             }
             System.out.println("Contacts backed up successfully.");
@@ -136,7 +142,7 @@ class Operations {
     }
 
     void restore(String filename) {
-        try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
+        try ( BufferedReader br = new BufferedReader(new FileReader(filename))) {
             head = null;
             String line;
             while ((line = br.readLine()) != null) {
@@ -153,8 +159,8 @@ class Operations {
         }
     }
 
-void importContacts(String filename) {
-        try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
+    void importContacts(String filename) {
+        try ( BufferedReader br = new BufferedReader(new FileReader(filename))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] details = line.split(",");
@@ -170,17 +176,18 @@ void importContacts(String filename) {
         }
     }
 }
-  
 
 public class EasyContacts {
+
     private Operations contacts;
-     private Stack<Contact> deleteStack;
-    
+    private Stack<Contact> deleteStack;
+
     public EasyContacts() {
         contacts = new Operations();
         deleteStack = new Stack<>();
-        
+
     }
+
     public void addContact(String name, String phoneNumber, String email, String address, String notes) {
         Contact newContact = new Contact(name, phoneNumber, email, address, notes);
         if (contacts.search(name) == null) {
@@ -218,7 +225,7 @@ public class EasyContacts {
             System.out.println("No contact to undo.");
         }
     }
-    
+
     public void sortContacts() {
         contacts.sort();
         System.out.println("Contacts sorted successfully.");
@@ -237,12 +244,12 @@ public class EasyContacts {
         contacts.restore(filename);
     }
 
-     public void importContacts(String filename) {
+    public void importContacts(String filename) {
         contacts.importContacts(filename);
     }
-     
+
     public static void main(String[] args) {
-      EasyContacts phonebook = new EasyContacts();
+        EasyContacts phonebook = new EasyContacts();
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
@@ -259,8 +266,8 @@ public class EasyContacts {
             System.out.println("10. Exit");
             System.out.print("Choose an option: ");
             int choice = scanner.nextInt();
-            scanner.nextLine();  
-            
+            scanner.nextLine();
+
             try {
                 switch (choice) {
                     case 1:
@@ -318,11 +325,11 @@ public class EasyContacts {
                     default:
                         System.out.println("Invalid choice. Please try again.");
                 }
-            }   catch (Exception e) {
+            } catch (Exception e) {
                 System.out.println("An error occurred: " + e.getMessage());
             }
 
         }
-    
+
     }
 }
