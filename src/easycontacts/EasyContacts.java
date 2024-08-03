@@ -1,6 +1,9 @@
 
 package easycontacts;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -113,8 +116,25 @@ class Operations {
             add(contact);
         }
     }
-}
 
+void importContacts(String filename) {
+        try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] details = line.split(",");
+                if (details.length == 5) {
+                    add(new Contact(details[0], details[1], details[2], details[3], details[4]));
+                } else {
+                    System.out.println("Invalid contact format in import file: " + line);
+                }
+            }
+            System.out.println("Contacts imported successfully.");
+        } catch (IOException e) {
+            System.out.println("Error during import: " + e.getMessage());
+        }
+}
+}
+  
 
 public class EasyContacts {
 
