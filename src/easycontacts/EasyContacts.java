@@ -16,7 +16,14 @@ class Contact{
         this.address = address;
         this.notes = notes;
     }
+    
+    @Override
+    public String toString(){
+        return "Name: " + name + ", Phone: " + phoneNumber + ", Email: " + email + ", Address: " + address + ", Notes: " + notes ;
+    }
 }
+
+
 
 public class EasyContacts {
 
