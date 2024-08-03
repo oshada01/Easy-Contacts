@@ -8,6 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Scanner;
 import java.util.Stack;
 
 
@@ -241,7 +242,26 @@ public class EasyContacts {
     }
      
     public static void main(String[] args) {
-      
+      EasyContacts phonebook = new EasyContacts();
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("\nPhonebook Menu:");
+            System.out.println("1. Add Contact");
+            System.out.println("2. Search Contact");
+            System.out.println("3. Delete Contact");
+            System.out.println("4. Undo Delete");
+            System.out.println("5. Sort and Display Contacts");
+            System.out.println("6. Display All Contacts");
+            System.out.println("7. Backup Contacts");
+            System.out.println("8. Restore Contacts");
+            System.out.println("9. Import Contacts");
+            System.out.println("10. Exit");
+            System.out.print("Choose an option: ");
+            int choice = scanner.nextInt();
+            scanner.nextLine();  
+
     }
     
+}
 }
