@@ -2,7 +2,9 @@
 package easycontacts;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -117,6 +119,38 @@ class Operations {
             add(contact);
         }
     }
+    
+        void backup(String filename) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filename))) {
+            Node current = head;
+            while (current != null) {
+                bw.write(current.contact.name + "," + current.contact.phoneNumber + "," + current.contact.email + "," +
+                         current.contact.address + "," + current.contact.notes + "\n");
+                current = current.next;
+            }
+            System.out.println("Contacts backed up successfully.");
+        } catch (IOException e) {
+            System.out.println("Error during backup: " + e.getMessage());
+        }
+    }
+
+    void restore(String filename) {
+        try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
+            head = null;
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] details = line.split(",");
+                if (details.length == 5) {
+                    add(new Contact(details[0], details[1], details[2], details[3], details[4]));
+                } else {
+                    System.out.println("Invalid contact format in restore file: " + line);
+                }
+            }
+            System.out.println("Contacts restored successfully.");
+        } catch (IOException e) {
+            System.out.println("Error during restore: " + e.getMessage());
+        }
+    }
 
 void importContacts(String filename) {
         try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
@@ -133,7 +167,7 @@ void importContacts(String filename) {
         } catch (IOException e) {
             System.out.println("Error during import: " + e.getMessage());
         }
-}
+    }
 }
   
 
@@ -183,7 +217,24 @@ public class EasyContacts {
             System.out.println("No contact to undo.");
         }
     }
+    
+    public void sortContacts() {
+        contacts.sort();
+        System.out.println("Contacts sorted successfully.");
+        contacts.display();
+    }
 
+    public void displayContacts() {
+        contacts.display();
+    }
+
+    public void backupContacts(String filename) {
+        contacts.backup(filename);
+    }
+
+    public void restoreContacts(String filename) {
+        contacts.restore(filename);
+    }
 
      public void importContacts(String filename) {
         contacts.importContacts(filename);
